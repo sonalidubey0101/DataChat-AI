@@ -111,7 +111,7 @@ def render_task_section(df: pd.DataFrame):
     """Call this from app.py to render the Tasks UI block."""
     import streamlit as st
 
-    st.markdown("## 📋 Pending Tasks & Commitments")
+    st.markdown("## Pending Tasks & Commitments")
     st.caption("Automatically detected from your chat using keyword rules.")
 
     tasks_df = detect_tasks(df)
@@ -133,21 +133,22 @@ def render_task_section(df: pd.DataFrame):
     filtered = tasks_df if selected == "All" else tasks_df[tasks_df["category"] == selected]
 
     # Per-user breakdown
-    with st.expander("👤 Tasks by User", expanded=False):
+    with st.expander("Tasks by User", expanded=False):
         user_counts = tasks_df.groupby("user").size().reset_index(name="Tasks")
         st.dataframe(user_counts, use_container_width=True)
 
     # Task list
     st.markdown(f"### {selected} ({len(filtered)} items)")
     for _, row in filtered.iterrows():
-        badge = "🕐" if row["has_time"] else ""
+        badge = if row["has_time"] else ""
         with st.container():
             st.markdown(
-                f"""<div style="background:#f0f9ff;border-left:4px solid #0ea5e9;
-                padding:10px 14px;border-radius:6px;margin-bottom:8px;">
-                <b>{row['category']}</b> {badge}<br>
-                <small style="color:#64748b;">{row['user']} &nbsp;·&nbsp; {str(row['date'])[:10]}</small><br>
-                {row['message']}
+                f"""<div style="background:#1C2333;border-left:4px solid #25D366;
+                padding:12px 16px;border-radius:8px;margin-bottom:10px;">
+                <span style="color:#25D366;font-weight:700;">{row['category']}</span>
+                <span style="color:#8B949E;"> {badge}</span><br>
+                <small style="color:#6E7681;">{row['user']} &nbsp;·&nbsp; {str(row['date'])[:10]}</small><br>
+                <span style="color:#E6EDF3;font-size:0.95rem;">{row['message']}</span>
                 </div>""",
                 unsafe_allow_html=True,
             )
