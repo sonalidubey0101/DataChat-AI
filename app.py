@@ -87,7 +87,7 @@ if uploaded_file is not None:
 
     selected_section = st.sidebar.radio("", ALL_SECTIONS, label_visibility="collapsed")
 
-    if st.sidebar.button("Show Analysis"):
+    if st.button("Show Analysis"):
         st.session_state["analysis_ready"] = True
 
     if not st.session_state.get("analysis_ready"):
