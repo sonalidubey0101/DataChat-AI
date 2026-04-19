@@ -73,24 +73,23 @@ if uploaded_file is not None:
     # ── Sidebar Navigation ────────────────────────────────────────────────────
     st.sidebar.markdown('<p class="sidebar-label">📊 Core Analysis</p>', unsafe_allow_html=True)
     CORE = [
-        "📊 Top Statistics",
-        "📅 Monthly Timeline",
-        "📆 Daily Timeline",
-        "🗺️ Activity Map",
-        "👥 Most Busy Users",
-        "☁️ WordCloud",
-        "🔤 Most Common Words",
-        "😀 Emoji Analysis",
-    ]
-    st.sidebar.markdown('<p class="sidebar-label">🧠 Smart Features — Level 1</p>', unsafe_allow_html=True)
-    L1 = ["📋 Pending Tasks", "🔗 Important Links", "💬 Conversation Summary"]
+        "Top Statistics",
+        "Monthly Timeline",
+        "Daily Timeline",
+        "Activity Map",
+        "Most Busy Users",
+        "WordCloud",
+        "Most Common Words",
+        "Emoji Analysis",
+        "Pending Tasks", 
+        "Important Links", 
+        "Conversation Summary",
+        "Reminder Generator", 
+        "Response Intelligence"]
 
-    st.sidebar.markdown('<p class="sidebar-label">🚀 Assistant Features — Level 2</p>', unsafe_allow_html=True)
-    L2 = ["📅 Reminder Generator", "⏱️ Response Intelligence"]
+    selected_section = st.sidebar.radio("", CORE , label_visibility="collapsed")
 
-    selected_section = st.sidebar.radio("", CORE + L1 + L2, label_visibility="collapsed")
-
-    if st.sidebar.button("Show Analysis"):
+    if st.button("Show Analysis"):
         st.session_state["analysis_ready"] = True
 
     if not st.session_state.get("analysis_ready"):
@@ -149,7 +148,7 @@ if uploaded_file is not None:
         plt.xticks(rotation="vertical", color="#8B949E")
         st.pyplot(fig)
 
-    elif selected_section == "🗺️ Activity Map":
+    elif selected_section == "Activity Map":
         st.header("Activity Map")
         c1, c2 = st.columns(2)
         with c1:
@@ -191,7 +190,7 @@ if uploaded_file is not None:
         else:
             st.info("'Most Busy Users' is only available when **Overall** is selected.")
 
-    elif selected_section == "☁️ WordCloud":
+    elif selected_section == "WordCloud":
         st.header("WordCloud")
         df_wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots(facecolor="#0E1117")
@@ -199,7 +198,7 @@ if uploaded_file is not None:
         ax.axis("off")
         st.pyplot(fig)
 
-    elif selected_section == "🔤 Most Common Words":
+    elif selected_section == "Most Common Words":
         st.header("Most Common Words")
         most_common_df = helper.most_common_words(selected_user, df)
         fig, ax = dark_fig()
@@ -235,10 +234,10 @@ if uploaded_file is not None:
     # LEVEL 2
     # ═════════════════════════════════════════════════════════════════════════
 
-    elif selected_section == "📅 Reminder Generator":
+    elif selected_section == "Reminder Generator":
         render_reminders_section(target_df)
 
-    elif selected_section == "⏱️ Response Intelligence":
+    elif selected_section == "Response Intelligence":
         render_response_section(target_df)
 
 else:
