@@ -177,10 +177,10 @@ def render_summary_section(df: pd.DataFrame):
     """Call this from app.py to render the Summary UI block."""
     import streamlit as st
 
-    st.markdown("## 💬 Conversation Summary")
+    st.markdown("## Conversation Summary")
     st.caption("Auto-generated overview of your chat.")
 
-    mode = "🤖 AI Summary (LLM)" if USE_LLM else "📊 Keyword-based Summary"
+    mode = "AI Summary (LLM)" if USE_LLM else "📊 Keyword-based Summary"
     st.markdown(f"**Mode:** {mode}")
 
     with st.spinner("Analyzing chat…"):
@@ -197,22 +197,23 @@ def render_summary_section(df: pd.DataFrame):
         hours_df = pd.DataFrame(
             list(stats["active_hours"].items()), columns=["Hour", "Messages"]
         ).sort_values("Hour")
-        with st.expander("🕐 Most Active Hours", expanded=False):
+        with st.expander("Most Active Hours", expanded=False):
             st.bar_chart(hours_df.set_index("Hour"))
 
     # Top keywords
     if stats["top_keywords"]:
-        st.markdown("#### 🔑 Hot Topics & Keywords")
+        st.markdown("#### Hot Topics & Keywords")
         kw_html = " ".join(
-            f'<span style="background:#dbeafe;color:#1d4ed8;padding:4px 10px;'
-            f'border-radius:20px;margin:3px;display:inline-block;font-size:0.85rem;">'
+            f'<span style="background:#1C2333;color:#25D366;border:1px solid #25D366;'
+            f'padding:4px 12px;border-radius:20px;margin:3px;display:inline-block;'
+            f'font-size:0.85rem;font-weight:600;">'
             f'{w}</span>'
             for w in stats["top_keywords"]
         )
         st.markdown(kw_html, unsafe_allow_html=True)
 
     # Summary sentences
-    st.markdown("#### 📝 Key Highlights")
+    st.markdown("#### Key Highlights")
     if USE_LLM:
         with st.spinner("Generating AI summary…"):
             llm_text = llm_summary(df)
@@ -221,9 +222,10 @@ def render_summary_section(df: pd.DataFrame):
         if stats["summary_sentences"]:
             for i, sentence in enumerate(stats["summary_sentences"], 1):
                 st.markdown(
-                    f"""<div style="background:#f8fafc;border-left:4px solid #6366f1;
-                    padding:8px 14px;border-radius:6px;margin-bottom:6px;">
-                    <b>#{i}</b> {sentence}
+                    f"""<div style="background:#1C2333;border-left:4px solid #6366f1;
+                    padding:10px 16px;border-radius:8px;margin-bottom:8px;">
+                    <span style="color:#818CF8;font-weight:700;">#{i}</span>
+                    <span style="color:#E6EDF3;"> {sentence}</span>
                     </div>""",
                     unsafe_allow_html=True,
                 )
