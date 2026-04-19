@@ -111,7 +111,7 @@ def render_task_section(df: pd.DataFrame):
     """Call this from app.py to render the Tasks UI block."""
     import streamlit as st
 
-    st.markdown("## Pending Tasks & Commitments")
+    st.markdown("## 📋 Pending Tasks & Commitments")
     st.caption("Automatically detected from your chat using keyword rules.")
 
     tasks_df = detect_tasks(df)
@@ -133,14 +133,14 @@ def render_task_section(df: pd.DataFrame):
     filtered = tasks_df if selected == "All" else tasks_df[tasks_df["category"] == selected]
 
     # Per-user breakdown
-    with st.expander("Tasks by User", expanded=False):
+    with st.expander("👤 Tasks by User", expanded=False):
         user_counts = tasks_df.groupby("user").size().reset_index(name="Tasks")
         st.dataframe(user_counts, use_container_width=True)
 
     # Task list
     st.markdown(f"### {selected} ({len(filtered)} items)")
     for _, row in filtered.iterrows():
-        badge = if row["has_time"] else ""
+        badge = "🕐" if row["has_time"] else ""
         with st.container():
             st.markdown(
                 f"""<div style="background:#1C2333;border-left:4px solid #25D366;
