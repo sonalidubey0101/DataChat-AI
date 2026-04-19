@@ -1,2 +1,4 @@
 # DataChat-AI
-DataChat AI is a personal chat intelligence assistant that understands conversations, extracts commitments, generates reminders, and turns messy WhatsApp chats into structured, actionable workflows using NLP and data analytics.
+DataChat AI is an AI-powered WhatsApp chat intelligence and assistant system designed to transform unstructured conversation data into actionable insights. The application processes exported chat data, performs advanced preprocessing using regular expressions, and applies data analysis and natural language techniques to extract meaningful information such as user activity patterns, task commitments, important links, and event reminders.
+
+The system features interactive visual dashboards for message trends, participation analysis, and temporal activity, along with intelligent modules for automatic task detection, conversation summarization, and reminder generation. Built using Python, Pandas, and Streamlit, DataChat AI bridges the gap between raw chat data and productivity by enabling users to manage conversations more effectively and derive structured insights from everyday communication.
