@@ -35,10 +35,6 @@ h1, h2, h3 { color: #E6EDF3; font-weight: 600; }
 [data-testid="stMetric"] { background-color: #161B22; padding: 15px; border-radius: 12px; }
 [data-testid="stDataFrame"] { border-radius: 12px; overflow: hidden; }
 hr { border: 0.5px solid #30363D; }
-.sidebar-label {
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
-    color: #6E7681; text-transform: uppercase; margin: 14px 0 4px 0;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -71,24 +67,23 @@ if uploaded_file is not None:
     selected_user = st.sidebar.selectbox("Show analysis wrt", user_list)
 
     # ── Sidebar Navigation ────────────────────────────────────────────────────
-    st.sidebar.markdown('<p class="sidebar-label">📊 Core Analysis</p>', unsafe_allow_html=True)
-    CORE = [
-        "📊 Top Statistics",
-        "📅 Monthly Timeline",
-        "📆 Daily Timeline",
-        "🗺️ Activity Map",
-        "👥 Most Busy Users",
-        "☁️ WordCloud",
-        "🔤 Most Common Words",
-        "😀 Emoji Analysis",
+    ALL_SECTIONS = [
+        "Top Statistics",
+        "Monthly Timeline",
+        "Daily Timeline",
+        "Activity Map",
+        "Most Busy Users",
+        "WordCloud",
+        "Most Common Words",
+        "Emoji Analysis",
+        "Pending Tasks",
+        "Important Links",
+        "Conversation Summary",
+        "Reminder Generator",
+        "Response Intelligence",
     ]
-    st.sidebar.markdown('<p class="sidebar-label">🧠 Smart Features — Level 1</p>', unsafe_allow_html=True)
-    L1 = ["📋 Pending Tasks", "🔗 Important Links", "💬 Conversation Summary"]
 
-    st.sidebar.markdown('<p class="sidebar-label">🚀 Assistant Features — Level 2</p>', unsafe_allow_html=True)
-    L2 = ["📅 Reminder Generator", "⏱️ Response Intelligence"]
-
-    selected_section = st.sidebar.radio("", CORE + L1 + L2, label_visibility="collapsed")
+    selected_section = st.sidebar.radio("", ALL_SECTIONS, label_visibility="collapsed")
 
     if st.sidebar.button("Show Analysis"):
         st.session_state["analysis_ready"] = True
@@ -122,7 +117,7 @@ if uploaded_file is not None:
     # CORE SECTIONS
     # ═════════════════════════════════════════════════════════════════════════
 
-    if selected_section == "📊 Top Statistics":
+    if selected_section == "Top Statistics":
         num_messages, words, media_messages, num_links = helper.fetch_stats(selected_user, df)
         st.title("Top Statistics")
         c1, c2, c3, c4 = st.columns(4)
@@ -133,7 +128,7 @@ if uploaded_file is not None:
         st.markdown("---")
         st.dataframe(df, use_container_width=True)
 
-    elif selected_section == "📅 Monthly Timeline":
+    elif selected_section == "Monthly Timeline":
         st.header("Monthly Timeline")
         timeline = helper.monthly_timeline(selected_user, df)
         fig, ax = dark_fig()
@@ -141,7 +136,7 @@ if uploaded_file is not None:
         plt.xticks(rotation="vertical", color="#8B949E")
         st.pyplot(fig)
 
-    elif selected_section == "📆 Daily Timeline":
+    elif selected_section == "Daily Timeline":
         st.header("Daily Timeline")
         daily_timeline = helper.daily_timeline(selected_user, df)
         fig, ax = dark_fig()
@@ -149,7 +144,7 @@ if uploaded_file is not None:
         plt.xticks(rotation="vertical", color="#8B949E")
         st.pyplot(fig)
 
-    elif selected_section == "🗺️ Activity Map":
+    elif selected_section == "Activity Map":
         st.header("Activity Map")
         c1, c2 = st.columns(2)
         with c1:
@@ -176,7 +171,7 @@ if uploaded_file is not None:
             sns.heatmap(user_heatmap, ax=ax, cmap="Greens")
             st.pyplot(fig)
 
-    elif selected_section == "👥 Most Busy Users":
+    elif selected_section == "Most Busy Users":
         if selected_user == "Overall":
             st.header("Most Busy Users")
             x, new_df = helper.most_busy_users(df)
@@ -191,7 +186,7 @@ if uploaded_file is not None:
         else:
             st.info("'Most Busy Users' is only available when **Overall** is selected.")
 
-    elif selected_section == "☁️ WordCloud":
+    elif selected_section == "WordCloud":
         st.header("WordCloud")
         df_wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots(facecolor="#0E1117")
@@ -199,14 +194,14 @@ if uploaded_file is not None:
         ax.axis("off")
         st.pyplot(fig)
 
-    elif selected_section == "🔤 Most Common Words":
+    elif selected_section == "Most Common Words":
         st.header("Most Common Words")
         most_common_df = helper.most_common_words(selected_user, df)
         fig, ax = dark_fig()
         ax.barh(most_common_df[0], most_common_df[1], color="#58A6FF")
         st.pyplot(fig)
 
-    elif selected_section == "😀 Emoji Analysis":
+    elif selected_section == "Emoji Analysis":
         emoji_df = helper.emoji_helper(selected_user, df)
         st.header("Emoji Analysis")
         c1, c2 = st.columns(2)
@@ -222,23 +217,23 @@ if uploaded_file is not None:
     # LEVEL 1
     # ═════════════════════════════════════════════════════════════════════════
 
-    elif selected_section == "📋 Pending Tasks":
+    elif selected_section == "Pending Tasks":
         render_task_section(target_df)
 
-    elif selected_section == "🔗 Important Links":
+    elif selected_section == "Important Links":
         render_links_section(target_df)
 
-    elif selected_section == "💬 Conversation Summary":
+    elif selected_section == "Conversation Summary":
         render_summary_section(target_df)
 
     # ═════════════════════════════════════════════════════════════════════════
     # LEVEL 2
     # ═════════════════════════════════════════════════════════════════════════
 
-    elif selected_section == "📅 Reminder Generator":
+    elif selected_section == "Reminder Generator":
         render_reminders_section(target_df)
 
-    elif selected_section == "⏱️ Response Intelligence":
+    elif selected_section == "Response Intelligence":
         render_response_section(target_df)
 
 else:
