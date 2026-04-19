@@ -26,24 +26,24 @@ def _extract_urls_from_text(text: str) -> list[str]:
 # ─── Categorization ──────────────────────────────────────────────────────────
 
 CATEGORIES = {
-    "🎥 YouTube":      ["youtube.com", "youtu.be"],
-    "📄 Google Docs":  ["docs.google.com", "drive.google.com", "sheets.google.com", "slides.google.com"],
-    "📸 Instagram":    ["instagram.com", "instagr.am"],
-    "🐦 Twitter/X":    ["twitter.com", "x.com", "t.co"],
-    "📘 Facebook":     ["facebook.com", "fb.com", "fb.me"],
-    "💬 WhatsApp":     ["chat.whatsapp.com", "wa.me"],
-    "🔗 LinkedIn":     ["linkedin.com", "lnkd.in"],
-    "🛒 Shopping":     ["amazon.com", "amazon.in", "flipkart.com", "myntra.com", "meesho.com", "ajio.com"],
-    "📰 News":         ["ndtv.com", "thehindu.com", "hindustantimes.com", "bbc.com", "cnn.com", "reuters.com", "timesofindia.com"],
-    "🗂️ GitHub":       ["github.com", "gist.github.com", "raw.githubusercontent.com"],
-    "🎵 Music":        ["spotify.com", "music.apple.com", "gaana.com", "jiosaavn.com", "soundcloud.com"],
-    "📱 Apps / Stores":["play.google.com", "apps.apple.com"],
-    "☁️ Cloud / Files":["dropbox.com", "wetransfer.com", "onedrive.com", "mediafire.com", "mega.nz"],
-    "📊 Notion / Tools":["notion.so", "trello.com", "asana.com", "miro.com", "figma.com"],
-    "🏥 Health":       ["healthline.com", "webmd.com", "mayoclinic.org", "practo.com"],
-    "📺 Streaming":    ["netflix.com", "hotstar.com", "primevideo.com", "zee5.com", "sonyliv.com"],
-    "🎓 Education":    ["coursera.org", "udemy.com", "edx.org", "khanacademy.org", "unacademy.com"],
-    "📍 Maps":         ["maps.google.com", "goo.gl/maps", "maps.app.goo.gl"],
+    "YouTube":      ["youtube.com", "youtu.be"],
+    "Google Docs":  ["docs.google.com", "drive.google.com", "sheets.google.com", "slides.google.com"],
+    "Instagram":    ["instagram.com", "instagr.am"],
+    "Twitter/X":    ["twitter.com", "x.com", "t.co"],
+    "Facebook":     ["facebook.com", "fb.com", "fb.me"],
+    "WhatsApp":     ["chat.whatsapp.com", "wa.me"],
+    "LinkedIn":     ["linkedin.com", "lnkd.in"],
+    "Shopping":     ["amazon.com", "amazon.in", "flipkart.com", "myntra.com", "meesho.com", "ajio.com"],
+    "News":         ["ndtv.com", "thehindu.com", "hindustantimes.com", "bbc.com", "cnn.com", "reuters.com", "timesofindia.com"],
+    "GitHub":       ["github.com", "gist.github.com", "raw.githubusercontent.com"],
+    "Music":        ["spotify.com", "music.apple.com", "gaana.com", "jiosaavn.com", "soundcloud.com"],
+    "Apps / Stores":["play.google.com", "apps.apple.com"],
+    "Cloud / Files":["dropbox.com", "wetransfer.com", "onedrive.com", "mediafire.com", "mega.nz"],
+    "Notion / Tools":["notion.so", "trello.com", "asana.com", "miro.com", "figma.com"],
+    "Health":       ["healthline.com", "webmd.com", "mayoclinic.org", "practo.com"],
+    "Streaming":    ["netflix.com", "hotstar.com", "primevideo.com", "zee5.com", "sonyliv.com"],
+    "Education":    ["coursera.org", "udemy.com", "edx.org", "khanacademy.org", "unacademy.com"],
+    "Maps":         ["maps.google.com", "goo.gl/maps", "maps.app.goo.gl"],
 }
 
 
@@ -52,7 +52,7 @@ def _categorize_url(url: str) -> str:
     for category, domains in CATEGORIES.items():
         if any(d in domain for d in domains):
             return category
-    return "🌐 Other"
+    return "Other"
 
 
 def _shorten(url: str, max_len: int = 60) -> str:
@@ -139,7 +139,7 @@ def render_links_section(df: pd.DataFrame):
         )
 
     # Filtered link browser
-    st.markdown("#### 🔍 Browse Links")
+    st.markdown("#### Browse Links")
     categories = ["All"] + sorted(links_df["category"].unique().tolist())
     selected_cat = st.selectbox("Filter by Category", categories, key="link_cat_filter")
 
@@ -148,12 +148,12 @@ def render_links_section(df: pd.DataFrame):
 
     for _, row in filtered.head(50).iterrows():
         st.markdown(
-            f"""<div style="background:#fafafa;border:1px solid #e2e8f0;
-            padding:9px 14px;border-radius:8px;margin-bottom:6px;">
-            <b>{row['category']}</b> &nbsp;
-            <a href="{row['url']}" target="_blank" style="color:#0ea5e9;word-break:break-all;">
+            f"""<div style="background:#1C2333;border:1px solid #30363D;
+            padding:10px 16px;border-radius:8px;margin-bottom:8px;">
+            <span style="color:#25D366;font-weight:700;">{row['category']}</span> &nbsp;
+            <a href="{row['url']}" target="_blank" style="color:#58A6FF;word-break:break-all;font-size:0.9rem;">
             {_shorten(row['url'])}</a><br>
-            <small style="color:#94a3b8;">{row['user']} &nbsp;·&nbsp; {str(row['date'])[:10]}</small>
+            <small style="color:#6E7681;">{row['user']} &nbsp;·&nbsp; {str(row['date'])[:10]}</small>
             </div>""",
             unsafe_allow_html=True,
         )
