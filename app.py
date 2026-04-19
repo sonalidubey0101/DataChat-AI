@@ -13,7 +13,7 @@ from reminder_generator    import render_reminders_section
 from response_intelligence import render_response_section
 
 st.set_page_config(
-    page_title="WhatsApp Chat Analyzer",
+    page_title="WhatsApp Chat Intelligence and Assistant System",
     page_icon="📱",
     layout="wide",
 )
@@ -39,13 +39,15 @@ hr { border: 0.5px solid #30363D; }
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<h1 style="text-align:center;">📱 WhatsApp Chat Analyzer</h1>
+<h1 style="text-align:center;">📱 WhatsApp Chat Intelligence and Assistant System</h1>
 <p style="text-align:center; color:#8B949E;">
 Analyze WhatsApp chats with interactive insights · Smart Edition v2.0
 </p>
 <hr>
 """, unsafe_allow_html=True)
 
+
+st.sidebar.title("DataChat AI")
 from pathlib import Path
 BASE_DIR  = Path(__file__).parent
 logo_path = BASE_DIR / "whatsapp_logo.jpg"
